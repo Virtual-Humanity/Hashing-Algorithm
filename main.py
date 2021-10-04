@@ -138,7 +138,8 @@ def hash_function(decrypted_m):
 
 def brute_force(encrypt_m):
     """Function that will run a brute force attack to find collisions """
-
+    comparison_hash = encrypt_m[2:]
+    print(comparison_hash)
     # this brute list will contain the random string that will be generated
     brute_list = ''
     i = 0
@@ -152,15 +153,17 @@ def brute_force(encrypt_m):
     list_sol = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'x']
     while i == 0:
         brute_list = ''
-        for x in range(len(encrypt_m)):  # the number in the range will be the length of the string
+        for x in range(len(comparison_hash)):  # the number in the range will be the length of the string
             # letter = string.ascii_letters
             random_letter = random.choice(list_sol)  # random letter/number will be selected
-            brute_list = brute_list[:x] + random_letter + brute_list[
-                                                          x:]  # random letter/number will be added to brute_list
-
-        if brute_list == encrypt_m:
+            # random letter/number will be added to brute_list
+            brute_list = brute_list[:x] + random_letter + brute_list[x:]
+        if num_steps % 10000000 == 0:
+            print(num_steps)
+        if brute_list == comparison_hash:
             # if brute list is equal to the encrypted message, then brute force worked successfully
-            i == 1
+            i = 1
+            print(brute_list)
             return num_steps  # returning the number of steps it took to generate the correct string
         num_steps += 1
 
@@ -180,9 +183,9 @@ def main():
         print('\nOriginal Message Input and its Hashed Output: ')
         print(user_string, ':\t', hashed_result)
         print('---')
-        # result = brute_force(hashed_result)
-        print('\nNumber of steps to find a collision:')
-    # print(result)
+        result = brute_force(hashed_result)
+        print('Number of steps to find a collision:')
+        print(result)
 
 
 if __name__ == '__main__':
