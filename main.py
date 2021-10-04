@@ -24,10 +24,24 @@ k = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x9
      0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
      0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2]
 
-""" Preprocessing """
-# 1. Pad the Message to ensure it's a multiple of 512
 
+""" Preprocessing """
+# 1. Pad the Message to ensure it's a multiple of 32 and
 # 2. Parse the Message into 'N' m-bit blocks
+def padAndParse(message):
+    data = bytearray(message, 'utf8')
+    orig_len_in_bits = (8 * len(data)) & 0xFFFFFFFF
+    print('Bit Length:')
+    print(orig_len_in_bits)
+    # Add a 1 bit to the end
+    data.append(0x80)
+    # Pad with zeros out to 32 bits
+    N = math.ceil(len(data)/4)     # number of 4-integer (32-bit) blocks required to hold 'l' ints
+    print('N:')
+    print(N)
+    M = bytearray(N)               # message M is N×4 array of 32-bit integers
+    print('M:')
+    print(M)
 
 # 3. Set the Initial Hash Value
 '''The first 32 bits of the fractional parts of the first 8 primes' square roots '''
@@ -56,6 +70,8 @@ def hashfunction(decrypted_m):
     # converting binary form to hexadecimal form
     hex_num = hex(int(binary_num))
     print(hex_num)
+
+    padAndParse(decrypted_m)
 
     # Below is just showing encryption of sha224
     # decrypted_m = decrypted_m.encode()
