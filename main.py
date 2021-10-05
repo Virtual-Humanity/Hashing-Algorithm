@@ -166,6 +166,62 @@ def brute_force(encrypt_m):
             print(brute_list)
             return num_steps  # returning the number of steps it took to generate the correct string
         num_steps += 1
+        
+    #New brute force method is below: 
+        
+    """ 
+    list_hash = []
+
+    numSteps = 0
+
+    #Below is generating the random string
+    string1 = randString()
+    string2 = randString()
+
+    #Below is finding the hash value of the two strings
+    hashed1 = hash_function(string1)
+    numSteps += 1
+    hashed2 = hash_function(string2)
+    numSteps += 1
+
+    #Adding the hash values to the hash value list
+    list_hash.append(hashed1)
+    list_hash.append(hashed2)
+    i = 0
+
+    if list_hash[0] != list_hash[1]:
+        while i == 0:
+            #Generating a new string value in order to get another hash value
+            string1 = randString()
+            hashed1 = hash_function(string1)
+            numSteps += 1
+            for k in range(len(list_hash)):
+                if list_hash[k] == hashed1:
+                    i += 1
+                    return numSteps
+            #Adding the first hash value to the list
+            list_hash.append(hashed1)
+            # Generating a new string value in order to get another hash value
+            string2 = randString()
+            hashed2 = hash_function(string2)
+            numSteps += 1
+            for p in range(len(list_hash)):
+                if list_hash[p] == hashed2:
+                    i += 1
+                    return numSteps
+            list_hash.append(hashed2)
+ """
+    
+    """
+    def randString():
+    """Function that will create a random string"""
+    string1 = ''
+    for s in range(32):
+        letter = string.ascii_letters
+        random_let = random.choice(letter)
+        string1 = string1[:s] + random_let + string1[s:]
+
+    return string1 """
 
 
 def main():
