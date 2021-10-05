@@ -1,5 +1,5 @@
 # Hashing-Algorithm
-A hashing algorithm in Python
+A hashing algorithm in Python.
 Names: Angela McNeese and Monserrat Molina.
 We used the latest version of Python which is 3.9.7.
 The code was written in the IDLE of Python. 
