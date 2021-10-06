@@ -235,7 +235,7 @@ def main():
             except ValueError as e:
                 print(e)
         hashed_result = hash_function(user_string)
-        print('\nOriginal Message Input and its Hashed Output: ')
+        print('\nOriginal Message Input and its Hexadecimal Hashed Output: ')
         print(user_string, ':\t', hashed_result)
         print('---')
         rounds = 10
