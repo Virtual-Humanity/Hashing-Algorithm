@@ -58,6 +58,15 @@ def pad_and_parse(message):
 """
     return hash_array
 
+def randString():
+    """Function that will create a random string"""
+    string1 = ''
+    for s in range(32):
+        letter = string.ascii_letters + string.digits
+        random_let = random.choice(letter)
+        string1 = string1[:s] + random_let + string1[s:]
+    return string1
+
 def hash_function(decrypted_m):
     """Hash function that will encrypt a message """
     """Output: a random output bit vector y of length 32 bits.
@@ -70,14 +79,14 @@ def hash_function(decrypted_m):
                                      0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
     length_string = len(decrypted_m)
     # Below is converting the string into binary notation
-    print('Binary Form:')
+    #print('Binary Form:')
     binary_num = ''.join(format(ord(i), '08b') for i in decrypted_m)
-    print(binary_num)
+    #print(binary_num)
 
-    print('\nHexadecimal Form:')
+    #print('\nHexadecimal Form:')
     # converting binary form to hexadecimal form
     hex_num = hex(int(binary_num))
-    print(hex_num)
+    #print(hex_num)
     hash_array = pad_and_parse(hex_num)
     # Process the message in 512-bit chunks:
     for offset in range(0, len(hash_array), 64):
@@ -136,22 +145,20 @@ def hash_function(decrypted_m):
     return hashed_output
 
 
-def brute_force(encrypt_m):
+def brute_force():
     """Function that will run a brute force attack to find collisions """
-    comparison_hash = encrypt_m[2:]
-    print(comparison_hash)
+    #comparison_hash = encrypt_m[2:]
+    #print(comparison_hash)
     # this brute list will contain the random string that will be generated
     brute_list = ''
     i = 0
-
     # variable below will keep track of the number of randomly generated strings have been created
     num_steps = 0
-
     # list_sol will be a list that will contain all of the possibilities of characters or numbers that are in a
     # hexadecimal form
-
     list_sol = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'x']
-    while i == 0:
+    """ #A function to find a collision specific to the user's input; Very, very, VERY inefficient
+    '''   while i == 0:
         brute_list = ''
         for x in range(len(comparison_hash)):  # the number in the range will be the length of the string
             # letter = string.ascii_letters
@@ -166,62 +173,54 @@ def brute_force(encrypt_m):
             print(brute_list)
             return num_steps  # returning the number of steps it took to generate the correct string
         num_steps += 1
-        
-    #New brute force method is below: 
-        
-    """ 
+'''"""
     list_hash = []
-
+    list_string = []
     numSteps = 0
-
-    #Below is generating the random string
+    #    Below is generating the random string
     string1 = randString()
     string2 = randString()
-
-    #Below is finding the hash value of the two strings
+    # Below is finding the hash value of the two strings
     hashed1 = hash_function(string1)
     numSteps += 1
     hashed2 = hash_function(string2)
     numSteps += 1
-
-    #Adding the hash values to the hash value list
+    # Adding the hash values to the hash value list
     list_hash.append(hashed1)
-    list_hash.append(hashed2)
-    i = 0
+    list_string.append(string1)
 
+    list_hash.append(hashed2)
+    list_string.append(string2)
+
+    i = 0
     if list_hash[0] != list_hash[1]:
         while i == 0:
-            #Generating a new string value in order to get another hash value
+            # Generating a new string value in order to get another hash value
             string1 = randString()
             hashed1 = hash_function(string1)
             numSteps += 1
-            for k in range(len(list_hash)):
-                if list_hash[k] == hashed1:
+            for j in range(len(list_hash)):
+                if list_hash[j] == hashed1:
                     i += 1
+                    print(list_hash[j], ":\t", string1, ",\t", list_string[j], "\t Steps: ", numSteps)
                     return numSteps
-            #Adding the first hash value to the list
+            # Adding the first hash value to the list
             list_hash.append(hashed1)
+            list_string.append(string1)
+
             # Generating a new string value in order to get another hash value
             string2 = randString()
             hashed2 = hash_function(string2)
+
             numSteps += 1
             for p in range(len(list_hash)):
                 if list_hash[p] == hashed2:
                     i += 1
+                    print(list_hash[p], ":\t", string2, ",\t", list_string[p], "\t Steps: ", numSteps)
                     return numSteps
             list_hash.append(hashed2)
- """
-    
-    """
-    def randString():
-    """Function that will create a random string"""
-    string1 = ''
-    for s in range(32):
-        letter = string.ascii_letters
-        random_let = random.choice(letter)
-        string1 = string1[:s] + random_let + string1[s:]
+            list_string.append(string2)
 
-    return string1 """
 
 
 def main():
@@ -239,7 +238,10 @@ def main():
         print('\nOriginal Message Input and its Hashed Output: ')
         print(user_string, ':\t', hashed_result)
         print('---')
-        result = brute_force(hashed_result)
+        rounds = 10
+        while rounds > 0:
+            result = brute_force()
+            rounds = rounds - 1
         print('Number of steps to find a collision:')
         print(result)
 
