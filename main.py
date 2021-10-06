@@ -238,7 +238,7 @@ def main():
         print('\nOriginal Message Input and its Hexadecimal Hashed Output: ')
         print(user_string, ':\t', hashed_result)
         print('---')
-        rounds = 10
+        rounds = 2
         while rounds > 0:
             result = brute_force()
             rounds = rounds - 1
